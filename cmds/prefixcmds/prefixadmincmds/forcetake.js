@@ -18,16 +18,16 @@ module.exports = async (message, client) => {
             await b.save()
 
             if (message.author.id !== '1235411394019725322') {
-                const authroizationerr = new EmbedBuilder() 
+                const authorizationerr = new EmbedBuilder() 
                     .setTitle('Error')
                     .setColor('Red')
                     .setDescription(`You are not authorized to use this command`)
                     .setTimestamp()
 
-                return message.channel.send({ embeds: [authroizationerr] })
+                return message.channel.send({ embeds: [authorizationerr] })
             }
 
-            const user = await client.users.fetch(userId).catch(() => null);
+            const user = await client.users.fetch(args[0]).catch(() => null);
             if (!user) {
                 const userNotFound = new EmbedBuilder()
                     .setTitle('Error')
