@@ -2,6 +2,7 @@ const { EmbedBuilder, Message, Client } = require('discord.js')
 const bot = require('./bot.js')
 const data = require('./data.js')
 const format = require('./numformat.js')
+const os = require('os')
 
 module.exports = async (message, client) => {
     try {
@@ -15,6 +16,10 @@ module.exports = async (message, client) => {
 
             await b.save()
 
+            const usage = process.cpuUsage(); // Get CPU usage at this moment
+            const load = (usage.user + usage.system) / 1000; // Convert microseconds to milliseconds
+            const percentLoad = (load / (os.uptime() * 1000)) * 100; // Calculate percentage
+
             // Calculate uptime in h, m, s
             const totalSeconds = Math.floor(client.uptime / 1000)
             const hours = Math.floor(totalSeconds / 3600)
@@ -25,7 +30,7 @@ module.exports = async (message, client) => {
                 .setColor('#36393F')
                 .setTitle('About')
                 .setDescription(`
-                
+                    
 [GITHUB](https://github.com/Player09239/Simpler-Economy/tree/main)
 [CHILL WITH THE DEV](https://discord.gg/qEnRAhPQfg)
 [INVITE THE BOT](https://discord.com/oauth2/authorize?client_id=1362806385057730651&scope=bot&permissions=8)
@@ -35,6 +40,7 @@ module.exports = async (message, client) => {
 **>** **Developer** chaos_09239
 **>** **Uptime** ${hours}h ${minutes}m ${seconds}s
 **>** **Ping** ${Math.floor(client.ws.ping)}ms
+**>** **CPU Load** ${percentLoad.toFixed(2)}%
 
 **>** **Total Users** ${await format(client.users.cache.size)}
 **>** **Total Servers** ${await (client.guilds.cache.size)}
