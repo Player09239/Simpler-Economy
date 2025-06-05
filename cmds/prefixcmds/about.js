@@ -25,7 +25,8 @@ module.exports = async (message, client) => {
                 .setColor('#36393F')
                 .setTitle('About')
                 .setDescription(`
-
+                
+[GITHUB](https://github.com/Player09239/Simpler-Economy/tree/main)
 [CHILL WITH THE DEV](https://discord.gg/qEnRAhPQfg)
 [INVITE THE BOT](https://discord.com/oauth2/authorize?client_id=1362806385057730651&scope=bot&permissions=8)
 
