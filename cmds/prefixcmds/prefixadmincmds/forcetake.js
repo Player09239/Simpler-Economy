@@ -74,7 +74,7 @@ module.exports = async (message, client) => {
                     .setTitle('Admin ForceTake')
                     .setColor('#36393F')
                     .setDescription(`
-**${args[0].username}**
+**${user.username}**
 
 **>** **Taken Cookies** ${await format(amount)} 🍪
                     `)
