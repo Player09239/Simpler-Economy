@@ -22,6 +22,8 @@ const view_vault = require('./view-vault')
 const dep_vault = require('./dep-vault')
 const mine = require('./mine')
 const server_info = require('./server-info')
+const forcetake = require('./forcetake')
+const forcegive = require('./forcegive')
 
 const client = new Client({
   intents: [
@@ -55,7 +57,10 @@ client.on('messageCreate', async (message) => {
   await view_vault(message, client)
   await dep_vault(message, client)
   await mine(message, client)
-  await server_info(message, client)
+  await server_info(message, client)  
+  await forcetake(message, client)
+  await forcegive(message, client)
+
 })
 
 mongoose
