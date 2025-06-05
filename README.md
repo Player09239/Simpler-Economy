@@ -7,17 +7,17 @@
     - balance
     - claim-drop
     - daily
-    - dep-piggy <amount>
-    - dep-vault <currency> <amount> 
+    - dep-piggy \<amount\>
+    - dep-vault \<currency\> \<amount\> 
     - help
-    - invest <amount> 
-    - leaderboard <type> 
+    - invest \<amount\> 
+    - leaderboard \<type\> 
     - mine
     - server-info 
     - view-piggy
     - view-vault
     - walk
-    - with-piggy <amount>
+    - with-piggy \<amount\>
 
 ## Use
 - Targeted be basic and easy to use!
