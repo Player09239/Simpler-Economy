@@ -25,6 +25,15 @@ const server_info = require('./server-info')
 const forcetake = require('./forcetake')
 const forcegive = require('./forcegive')
 
+// Import Slash CMDS
+const slash_dep_vault = require('./sdep-vault')
+const slash_claim_drop = require('./sclaim-drop')
+const slash_help = require('./shelp')
+const slash_invest = require('./sinvest')
+const slash_dep_piggy = require('./sdep-piggy')
+const slash_with_piggy = require('./swith-piggy')
+const slash_balance = require('./sbalance')
+
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -57,10 +66,21 @@ client.on('messageCreate', async (message) => {
   await view_vault(message, client)
   await dep_vault(message, client)
   await mine(message, client)
-  await server_info(message, client)  
+  await server_info(message, client)
   await forcetake(message, client)
   await forcegive(message, client)
+})
 
+client.on('interactionCreate', async (interaction) => {
+  const { commandName } = interaction
+
+  await slash_dep_vault(interaction, commandName, client)
+  await slash_claim_drop(interaction, commandName, client)
+  await slash_help(interaction, commandName, client)
+  await slash_invest(interaction, commandName, client)
+  await slash_dep_piggy(interaction, commandName, client)
+  await slash_with_piggy(interaction, commandName, client)
+  await slash_balance(interaction, commandName, client)
 })
 
 mongoose
