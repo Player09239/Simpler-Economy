@@ -36,7 +36,7 @@ module.exports = async (interaction, commandName, client) => {
 **>** **about** About this bot
 **>** **walk** Walk to earn cookies
 **>** **mine** Mine for a chance to earn gems
-**>** **leaderboard** View the server's leaderboard
+**>** **leaderboard** View the global leaderboard
 - leaderboard <type>
 **>** **server-info** View server information
 
