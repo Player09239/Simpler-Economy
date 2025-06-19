@@ -33,6 +33,15 @@ const slash_invest = require('./sinvest')
 const slash_dep_piggy = require('./sdep-piggy')
 const slash_with_piggy = require('./swith-piggy')
 const slash_balance = require('./sbalance')
+const slash_about = require('./sabout')
+const slash_daily = require('./sdaily')
+const slash_view_piggy = require('./sview-piggy')
+const slash_view_vault = require('./sview-vault')
+const slash_dep_vault = require('./sdep-vault')
+const slash_server_info = require('./sserver-info')
+const slash_leaderboard = require('./sleaderboard')
+const slash_walk = require('./swalk')
+
 
 const client = new Client({
   intents: [
@@ -85,6 +94,15 @@ client.on('interactionCreate', async (interaction) => {
   await slash_dep_piggy(interaction, commandName, client)
   await slash_with_piggy(interaction, commandName, client)
   await slash_balance(interaction, commandName, client)
+  await slash_about(interaction, commandName, client)
+  await slash_view_piggy(interaction, commandName, client)
+  await slash_daily(interaction, commandName, client)
+  await slash_view_vault(interaction, commandName, client)
+  await slash_dep_vault(interaction, commandName, client)
+  await slash_server_info(interaction, commandName, client)
+  await slash_leaderboard(interaction, commandName, client)
+  await slash_walk(interaction, commandName, client)
+  
 })
 
 mongoose
