@@ -45,7 +45,11 @@ const client = new Client({
 })
 
 client.on('ready', () => {
-  console.log(`> ${client.user.tag} is logged in`)
+  try {
+    console.log(`> ${client.user.tag} is now online!`)
+  } catch (error) {
+    console.error('> Error while logging in:', error);
+  }
 })
 
 client.on('messageCreate', async (message) => {
