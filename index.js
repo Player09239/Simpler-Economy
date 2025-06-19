@@ -26,7 +26,6 @@ const forcetake = require('./forcetake')
 const forcegive = require('./forcegive')
 
 // Import Slash CMDS
-const slash_dep_vault = require('./sdep-vault')
 const slash_claim_drop = require('./sclaim-drop')
 const slash_help = require('./shelp')
 const slash_invest = require('./sinvest')
@@ -41,6 +40,7 @@ const slash_dep_vault = require('./sdep-vault')
 const slash_server_info = require('./sserver-info')
 const slash_leaderboard = require('./sleaderboard')
 const slash_walk = require('./swalk')
+const smine = require('./smine')
 
 
 const client = new Client({
@@ -98,11 +98,11 @@ client.on('interactionCreate', async (interaction) => {
   await slash_view_piggy(interaction, commandName, client)
   await slash_daily(interaction, commandName, client)
   await slash_view_vault(interaction, commandName, client)
-  await slash_dep_vault(interaction, commandName, client)
   await slash_server_info(interaction, commandName, client)
   await slash_leaderboard(interaction, commandName, client)
   await slash_walk(interaction, commandName, client)
-  
+  await smine(interaction, commandName, client)
+
 })
 
 mongoose
