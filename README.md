@@ -2,7 +2,7 @@
 - Hi!  I'm Chaos, and I am trying to get this bot popular! Please help me by joining my server that is in my bio and inviting the bot to your server!
 
 ## Commands
-- Currently 15 user commands and 2 admin commands!
+- Currently 15 user commands
     - about
     - balance
     - claim-drop
