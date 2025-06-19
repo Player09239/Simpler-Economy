@@ -59,7 +59,11 @@ const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
                     .setDescription('Deposit cookies/gems into the server vault')
                     .addStringOption(option => 
                         option.setName('currency')
-                            .setDescription('Currency to deposit (cookies/gems)')
+                            .setDescription('Currency to deposit')
+                            .addChoices(
+                                { name: 'Cookies', value: 'cookies' },
+                                { name: 'Gems', value: 'gems' }
+                            )
                             .setRequired(true))
                     .addStringOption(option => 
                         option.setName('amount')
@@ -70,6 +74,35 @@ const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
                     .setName('claim-drop')
                     .setDescription('Claim the server\'s drop')
                     .toJSON(),
+                new SlashCommandBuilder()
+                    .setName('leaderboard')
+                    .setDescription('View the global leaderboard')
+                    .addStringOption(option => 
+                        option.setName('type')
+                            .setDescription('Type of leaderboard to view')
+                            .addChoices(
+                                { name: 'Cookies', value: 'cookies' },
+                                { name: 'Gems', value: 'gems' },
+                                { name: 'Piggy Bank', vaule: 'piggybank' }
+                            )
+                            .setRequired(true))
+                    .toJSON(),
+                new SlashCommandBuilder()
+                    .setName('mine')
+                    .setDescription('Mine for a chance to earn gems')
+                    .toJSON(),
+                new SlashCommandBuilder()
+                    .setName('server-info')
+                    .setDescription('View server information')
+                    .toJSON(),
+                new SlashCommandBuilder()
+                    .setName('walk')
+                    .setDescription('Walk to earn cookies')
+                    .toJSON(),
+                new SlashCommandBuilder()
+                    .setName('daily')
+                    .setDescription('Claim your daily cookies')
+                    .toJSON()
             ]}
         );
         console.log('Finished Deploying Commands');
