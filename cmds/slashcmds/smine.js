@@ -3,7 +3,7 @@ const user = require('./data')
 const bot = require('./bot')
 const format = require('./numformat')
 
-module.exports = async (interaction, commandName, client) => {
+module.exports = async (interaction, commandName, client, minecd) => {
     try {
         let b = await bot.findOne({ client: client.user.id })
 
@@ -14,6 +14,16 @@ module.exports = async (interaction, commandName, client) => {
             b.totalMessagesSent += 1
 
             await b.save()
+
+            if (minecd.has(interaction.user.id)) {
+                const cooldownEmbed = new EmbedBuilder()
+                    .setTitle('Cooldown')
+                    .setColor('Red')
+                    .setDescription(`Please try again <t:${u.last.mine + 35}:R>.`)
+                    .setTimestamp()
+
+                return interaction.reply({ embeds: [cooldownEmbed] })
+            }
 
             const rng = Math.random()
 
@@ -52,6 +62,13 @@ You went mining, but found nothing.
                     .setTimestamp()
                 interaction.reply({ embeds: [embed] })
             }
+
+            u.last.mine = Math.floor(Date.now() / 1000)
+            await u.save()
+            minecd.add(interaction.user.id)
+            setTimeout(() => {
+                minecd.delete(interaction.user.id)
+            }, 35000)
         }
     } catch (error) {
         const internal_error = new EmbedBuilder()

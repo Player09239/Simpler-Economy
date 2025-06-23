@@ -4,7 +4,7 @@ const user = require('./data')
 const format = require('./numformat')
 const server = require('./server')
 
-module.exports = async (interaction, commandName, client) => {
+module.exports = async (interaction, commandName, client, claim_dropcd) => {
     try {
         let b = await bot.findOne({ client: client.user.id })
         let s = await server.findOne({ guildId: interaction.guild.id })
@@ -15,6 +15,16 @@ module.exports = async (interaction, commandName, client) => {
             b.totalCommandsExecuted += 1
             b.totalMessagesSent += 1
             await b.save()
+
+            if (claim_dropcd.has(interaction.user.id)) {
+                const cooldownEmbed = new EmbedBuilder()
+                    .setTitle('Cooldown')
+                    .setColor('Red')
+                    .setDescription(`Please try again <t:${u.last.claim_drop + 100}:R>.`)
+                    .setTimestamp()
+
+                return interaction.reply({ embeds: [cooldownEmbed] })
+            }
 
             if (s.isDrop === true) {
                 s.isDrop = false
@@ -50,6 +60,14 @@ There is no server drop to claim!
 
                 interaction.reply({ embeds: [err] })
             }
+
+            u.last.claim_drop = Math.floor(Date.now() / 1000)
+            await u.save()
+            claim_dropcd.add(interaction.user.id)
+            setTimeout(() => {
+                claim_dropcd.delete(interaction.user.id)
+            }, 100000)
+
         }
     } catch (error) {
         const internal_error = new EmbedBuilder()

@@ -3,7 +3,7 @@ const bot = require('./bot')
 const users = require('./data')
 const format = require('./numformat')
 
-module.exports = async (interaction, commandName, client) => {
+module.exports = async (interaction, commandName, client, leaderboardcd) => {
     try {
         let b = await bot.findOne({ client: client.user.id })
 
@@ -14,6 +14,16 @@ module.exports = async (interaction, commandName, client) => {
             b.totalMessagesSent += 1
 
             await b.save()
+
+            if (leaderboardcd.has(interaction.user.id)) {
+                const cooldownEmbed = new EmbedBuilder()
+                    .setTitle('Cooldown')
+                    .setColor('Red')
+                    .setDescription(`Please try again <t:${u.last.leaderboard + 20}:R>.`)
+                    .setTimestamp()
+
+                return interaction.reply({ embeds: [cooldownEmbed] })
+            }
 
             const lb = new EmbedBuilder()
                 .setColor('#36393F')
@@ -60,6 +70,13 @@ module.exports = async (interaction, commandName, client) => {
             if (!topUsers || topUsers.length === 0) return interaction.reply({ embeds: [err3] })
 
             interaction.reply({ embeds: [lb] })
+
+            u.last.leaderboard = Math.floor(Date.now() / 1000)
+            await u.save()
+            leaderboardcd.add(interaction.user.id)
+            setTimeout(() => {
+                leaderboardcd.delete(interaction.user.id)
+            }, 20000)
         }
     } catch (error) {
         const internal_error = new EmbedBuilder()

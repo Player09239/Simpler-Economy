@@ -3,7 +3,7 @@ const user = require('./data')
 const bot = require('./bot')
 const format = require('./numformat')
 
-module.exports = async (interaction, commandName, client) => {
+module.exports = async (interaction, commandName, client, dep_piggycd) => {
     try {
         let b = await bot.findOne({ client: client.user.id })
 
@@ -14,6 +14,16 @@ module.exports = async (interaction, commandName, client) => {
             b.totalMessagesSent += 1
 
             await b.save()
+
+            if (dep_piggycd.has(interaction.user.id)) {
+                const cooldownEmbed = new EmbedBuilder()
+                    .setTitle('Cooldown')
+                    .setColor('Red')
+                    .setDescription(`Please try again <t:${u.last.dep_piggy + 10}:R>.`)
+                    .setTimestamp()
+
+                return interaction.reply({ embeds: [cooldownEmbed] })
+            }
 
             const err2 = new EmbedBuilder()
                 .setTitle('Error')
@@ -84,7 +94,14 @@ module.exports = async (interaction, commandName, client) => {
                 `)
                 .setTimestamp()
 
-            interaction.reply({ embeds: [success] })         
+            interaction.reply({ embeds: [success] })     
+            
+            u.last.dep_piggy = Math.floor(Date.now() / 1000)
+            await u.save()
+            dep_piggycd.add(interaction.user.id)
+            setTimeout(() => {
+                dep_piggycd.delete(interaction.user.id)
+            }, 10000)
         }
     } catch (error) {
         const internal_error = new EmbedBuilder()

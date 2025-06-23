@@ -1,7 +1,7 @@
 const { EmbedBuilder, Message, Client } = require('discord.js')
 const bot = require('./bot')
 
-module.exports = async (interaction, commandName, client) => {
+module.exports = async (interaction, commandName, client, helpcd) => {
     let b = await bot.findOne({ client: client.user.id })
 
     if (commandName === `help`) {
@@ -9,6 +9,16 @@ module.exports = async (interaction, commandName, client) => {
         b.totalMessagesSent += 1
 
         await b.save()
+
+        if (helpcd.has(interaction.user.id)) {
+            const cooldownEmbed = new EmbedBuilder()
+                .setTitle('Cooldown')
+                .setColor('Red')
+                .setDescription(`Please try again <t:${u.last.help + 20}:R>.`)
+                .setTimestamp()
+
+            return interaction.reply({ embeds: [cooldownEmbed] })
+        }
 
         const help = new EmbedBuilder()
             .setTitle('Help')
@@ -44,5 +54,12 @@ module.exports = async (interaction, commandName, client) => {
             .setTimestamp()
 
         interaction.reply({ embeds: [help] })
+
+        u.last.help = Math.floor(Date.now() / 1000)
+        await u.save()
+        helpcd.add(interaction.user.id)
+        setTimeout(() => {
+            helpcd.delete(interaction.user.id)
+        }, 20000)
     }
 }
