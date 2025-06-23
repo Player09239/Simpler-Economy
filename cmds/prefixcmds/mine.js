@@ -2,6 +2,7 @@ const { EmbedBuilder, Message, Client } = require('discord.js')
 const user = require('./data')
 const bot = require('./bot')
 const format = require('./numformat')
+const { calculate_earned } = require('./functions')
 
 module.exports = async (message, client, minecd) => {
     try {
@@ -28,7 +29,7 @@ module.exports = async (message, client, minecd) => {
             const rng = Math.random()
 
             if (rng < 0.5) {
-                const amount = Math.floor((Math.random() * 5) + 1)
+                const amount = await calculate_earned(Math.floor((Math.random() * 5) + 1), 'gems', message.author.id)
                 u.gems += amount
                 await u.save()
 
