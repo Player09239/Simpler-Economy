@@ -3,7 +3,7 @@ const user = require('./data')
 const bot = require('./bot')
 const format = require('./numformat')
 
-module.exports = async (message, client) => {
+module.exports = async (message, client, minecd) => {
     try {
         let b = await bot.findOne({ client: client.user.id })
 
@@ -14,6 +14,16 @@ module.exports = async (message, client) => {
             b.totalMessagesSent += 1
 
             await b.save()
+
+            if (minecd.has(message.author.id)) {
+                const cooldownEmbed = new EmbedBuilder()
+                    .setTitle('Cooldown')
+                    .setColor('Red')
+                    .setDescription(`Please try again <t:${u.last.mine + 35}:R>.`)
+                    .setTimestamp()
+
+                return message.channel.send({ embeds: [cooldownEmbed] })
+            }
 
             const rng = Math.random()
 
@@ -52,8 +62,23 @@ You went mining, but found nothing.
                     .setTimestamp()
                 message.channel.send({ embeds: [embed] })
             }
+
+            u.last.mine = Math.floor(Date.now() / 1000)
+            await u.save()
+            minecd.add(message.author.id)
+            setTimeout(() => {
+                minecd.delete(message.author.id)
+            }, 35000)
         }
     } catch (error) {
-        
+        const internal_error = new EmbedBuilder()
+            .setTitle('Internal Error')
+            .setDescription(`\`${error}\``)
+            .setColor('Red')
+            .setTimestamp()
+
+        interaction.reply({ embeds: [internal_error] })
+
+        console.error(`> [${message.guild.id}] Error Detected: ${error}`)
     }
 }

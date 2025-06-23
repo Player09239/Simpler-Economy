@@ -4,7 +4,7 @@ const data = require('./data.js')
 const format = require('./numformat.js')
 const os = require('os')
 
-module.exports = async (message, client) => {
+module.exports = async (message, client, aboutcd) => {
     try {
         let b = await bot.findOne({ client: client.user.id })
 
@@ -15,6 +15,16 @@ module.exports = async (message, client) => {
             b.totalMessagesSent += 1
 
             await b.save()
+
+            if (aboutcd.has(message.author.id)) {
+                const cooldownEmbed = new EmbedBuilder()
+                    .setTitle('Cooldown')
+                    .setColor('Red')
+                    .setDescription(`Please try again <t:${u.last.about + 20}:R>.`)
+                    .setTimestamp()
+
+                return message.channel.send({ embeds: [cooldownEmbed] })
+            }
 
             const usage = process.cpuUsage(); // Get CPU usage at this moment
             const load = (usage.user + usage.system) / 1000; // Convert microseconds to milliseconds
@@ -50,6 +60,13 @@ module.exports = async (message, client) => {
                 .setTimestamp()
 
             message.channel.send({ embeds: [embed] })
+
+            u.last.about = Math.floor(Date.now() / 1000)
+            await u.save()
+            aboutcd.add(message.author.id)
+            setTimeout(() => {
+                aboutcd.delete(message.author.id)
+            }, 20000)
         }   
     } catch (error) {
         const internal_error = new EmbedBuilder()

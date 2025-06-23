@@ -1,7 +1,8 @@
 const { EmbedBuilder, Message, Client } = require('discord.js')
 const bot = require('./bot')
+const user = require('./data')
 
-module.exports = async (message, client) => {
+module.exports = async (message, client, helpcd) => {
     let b = await bot.findOne({ client: client.user.id })
 
     const args = message.content.trim().split(/ +/)
@@ -12,6 +13,18 @@ module.exports = async (message, client) => {
         b.totalMessagesSent += 1
 
         await b.save()
+
+        let u = await user.findOne({ userId: message.author.id })
+        
+        if (helpcd.has(message.author.id)) {
+            const cooldownEmbed = new EmbedBuilder()
+                .setTitle('Cooldown')
+                .setColor('Red')
+                .setDescription(`Please try again <t:${u.last.help + 20}:R>.`)
+                .setTimestamp()
+
+            return message.channel.send({ embeds: [cooldownEmbed] })
+        }
 
         const help = new EmbedBuilder()
             .setTitle('Help')
@@ -39,7 +52,7 @@ module.exports = async (message, client) => {
 **>** **${b.prefix}about** About this bot
 **>** **${b.prefix}walk** Walk to earn cookies
 **>** **${b.prefix}mine** Mine for a chance to earn gems
-**>** **${b.prefix}leaderboard** View the server's leaderboard
+**>** **${b.prefix}leaderboard** View the global leaderboard
 - ${b.prefix}leaderboard <type>
 **>** **${b.prefix}server-info** View server information
 
@@ -47,5 +60,12 @@ module.exports = async (message, client) => {
             .setTimestamp()
 
         message.channel.send({ embeds: [help] })
+
+        u.last.help = Math.floor(Date.now() / 1000)
+        await u.save()
+        helpcd.add(message.author.id)
+        setTimeout(() => {
+            helpcd.delete(message.author.id)
+        }, 20000)
     }
 }

@@ -3,7 +3,7 @@ const server = require('./server')
 const bot = require('./bot')
 const format = require('./numformat')
 
-module.exports = async (message, client) => {
+module.exports = async (message, client, server_infocd) => {
     try {
         let b = await bot.findOne({ client: client.user.id })
 
@@ -13,6 +13,16 @@ module.exports = async (message, client) => {
             b.totalCommandsExecuted += 1
             b.totalMessagesSent += 1
             await b.save()
+
+            if (server_infocd.has(message.author.id)) {
+                const cooldownEmbed = new EmbedBuilder()
+                    .setTitle('Cooldown')
+                    .setColor('Red')
+                    .setDescription(`Please try again <t:${u.last.server_info + 10}:R>.`)
+                    .setTimestamp()
+
+                return message.channel.send({ embeds: [cooldownEmbed] })
+            }
 
             const info = new EmbedBuilder() 
                 .setTitle('Server')
@@ -28,6 +38,13 @@ module.exports = async (message, client) => {
                 `)
 
             message.channel.send({ embeds: [info] })
+
+            u.last.server_info = Math.floor(Date.now() / 1000)
+            await u.save()
+            server_infocd.add(message.author.id)
+            setTimeout(() => {
+                server_infocd.delete(message.author.id)
+            }, 10000)
         }
     } catch (error) {
         const internal_error = new EmbedBuilder()

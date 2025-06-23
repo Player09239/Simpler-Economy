@@ -3,7 +3,7 @@ const bot = require('./bot')
 const users = require('./data')
 const format = require('./numformat')
 
-module.exports = async (message, client) => {
+module.exports = async (message, client, leaderboardcd) => {
     try {
         let b = await bot.findOne({ client: client.user.id })
 
@@ -17,6 +17,16 @@ module.exports = async (message, client) => {
             b.totalMessagesSent += 1
 
             await b.save()
+
+            if (leaderboardcd.has(message.author.id)) {
+                const cooldownEmbed = new EmbedBuilder()
+                    .setTitle('Cooldown')
+                    .setColor('Red')
+                    .setDescription(`Please try again <t:${u.last.leaderboard + 20}:R>.`)
+                    .setTimestamp()
+
+                return message.channel.send({ embeds: [cooldownEmbed] })
+            }
 
             const err1 = new EmbedBuilder()
                 .setTitle('Error')
@@ -76,6 +86,13 @@ module.exports = async (message, client) => {
             if (!topUsers || topUsers.length === 0) return message.channel.send({ embeds: [err3] })
 
             message.channel.send({ embeds: [lb] })
+
+            u.last.leaderboard = Math.floor(Date.now() / 1000)
+            await u.save()
+            leaderboardcd.add(message.author.id)
+            setTimeout(() => {
+                leaderboardcd.delete(message.author.id)
+            }, 20000)
         }
     } catch (error) {
         const internal_error = new EmbedBuilder()

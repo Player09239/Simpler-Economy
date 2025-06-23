@@ -15,6 +15,16 @@ module.exports = async (message, client) => {
 
             await b.save()
 
+            if (view_vaultcd.has(message.author.id)) {
+                const cooldownEmbed = new EmbedBuilder()
+                    .setTitle('Cooldown')
+                    .setColor('Red')
+                    .setDescription(`Please try again <t:${u.last.view_vault + 10}:R>.`)
+                    .setTimestamp()
+
+                return message.channel.send({ embeds: [cooldownEmbed] })
+            }
+
             const svault = new EmbedBuilder()
                 .setTitle('Server Vault')
                 .setColor('#36393F')
@@ -29,6 +39,13 @@ module.exports = async (message, client) => {
                 .setTimestamp()
 
             message.channel.send({ embeds: [svault] })
+
+            u.last.view_vault = Math.floor(Date.now() / 1000)
+            await u.save()
+            view_vaultcd.add(message.author.id)
+            setTimeout(() => {
+                view_vaultcd.delete(message.author.id)
+            }, 10000)
         }
     } catch (error) {
         const internal_error = new EmbedBuilder()

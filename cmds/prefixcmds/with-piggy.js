@@ -3,7 +3,7 @@ const user = require('./data')
 const bot = require('./bot')
 const format = require('./numformat')
 
-module.exports = async (message, client) => {
+module.exports = async (message, client, with_piggycd) => {
     try {
         let b = await bot.findOne({ client: client.user.id })
 
@@ -17,6 +17,16 @@ module.exports = async (message, client) => {
             b.totalMessagesSent += 1
 
             await b.save()
+
+            if (with_piggycd.has(message.author.id)) {
+                const cooldownEmbed = new EmbedBuilder()
+                    .setTitle('Cooldown')
+                    .setColor('Red')
+                    .setDescription(`Please try again <t:${u.last.with_piggy + 10}:R>.`)
+                    .setTimestamp()
+
+                return message.channel.send({ embeds: [cooldownEmbed] })
+            }
 
             const err1 = new EmbedBuilder()
                 .setTitle('Error')
@@ -94,7 +104,14 @@ module.exports = async (message, client) => {
                 `)
                 .setTimestamp()
 
-            message.channel.send({ embeds: [success] })         
+            message.channel.send({ embeds: [success] })     
+            
+            u.last.with_piggy = Math.floor(Date.now() / 1000)
+            await u.save()
+            with_piggycd.add(message.author.id)
+            setTimeout(() => {
+                with_piggycd.delete(message.author.id)
+            }, 10000)
         }
     } catch (error) {
         const internal_error = new EmbedBuilder()

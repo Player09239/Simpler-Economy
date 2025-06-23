@@ -4,7 +4,7 @@ const user = require('./data')
 const bot = require('./bot')
 const format = require('./numformat')
 
-module.exports = async (message, client) => {
+module.exports = async (message, client, dep_vaultcd) => {
     try {
         let b = await bot.findOne({ client: client.user.id })
 
@@ -18,6 +18,16 @@ module.exports = async (message, client) => {
             b.totalCommandsExecuted += 1
             b.totalMessagesSent += 1
             await b.save()
+
+            if (dep_vaultcd.has(message.author.id)) {
+                const cooldownEmbed = new EmbedBuilder()
+                    .setTitle('Cooldown')
+                    .setColor('Red')
+                    .setDescription(`Please try again <t:${u.last.dep_vault + 10}:R>.`)
+                    .setTimestamp()
+
+                return message.channel.send({ embeds: [cooldownEmbed] })
+            }
 
             const err1 = new EmbedBuilder()
                 .setTitle('Error')
@@ -162,6 +172,13 @@ module.exports = async (message, client) => {
 
                 return message.channel.send({ embeds: [dep] })
             }
+
+            u.last.dep_vault = Math.floor(Date.now() / 1000)
+            await u.save()
+            dep_vaultcd.add(message.author.id)
+            setTimeout(() => {
+                dep_vaultcd.delete(message.author.id)
+            }, 10000)
         }
     } catch (error) {
         const internal_error = new EmbedBuilder()
