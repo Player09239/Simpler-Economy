@@ -3,6 +3,7 @@ const data = require('./data.js')
 const bot = require('./bot.js')
 const format = require('./numformat.js')
 const server = require('./server.js')
+const { calculate_earned } = require('./functions')
 
 module.exports = async (interaction, commandName, client, walkcd) => {
     try {
@@ -27,7 +28,7 @@ module.exports = async (interaction, commandName, client, walkcd) => {
                 return interaction.reply({ embeds: [cooldownEmbed] })
             }
 
-            const earnedCookies = Math.floor(((Math.random() * 5) + 1) * (1 + (s.vault.cookies * 0.000002)))
+            const earnedCookies = await calculate_earned(Math.floor((Math.random() * 5) + 1), 'cookies', interaction.user.id)
             const walked = Math.random() * 10
 
             u.cookies += earnedCookies
