@@ -1,46 +1,47 @@
-require('dotenv').config()
-const { Client, GatewayIntentBits, Message } = require('discord.js')
-const mongoose = require('mongoose')
+import * as dotenv from 'dotenv'
+dotenv.config()
+import { Client, GatewayIntentBits, Message } from 'discord.js'
+import mongoose from 'mongoose'
 
 // Import EVENTS
-const msg = require('./msgCreate')
-const drop = require('./randomdrops')
+import { msg } from './msgCreate.js'
+import { drop } from './randomdrops.js'
 
 // Import Prefix CMDS
-const balance = require('./balance')
-const walk = require('./walk')
-const about = require('./about')
-const dep_piggy = require('./dep-piggy')
-const view_piggy = require('./view-piggy')
-const daily = require('./daily')
-const with_piggy = require('./with-piggy')
-const claim_drop = require('./claim-drop')
-const invest = require('./invest')
-const help = require('./help')
-const leaderboard = require('./leaderboard')
-const view_vault = require('./view-vault')
-const dep_vault = require('./dep-vault')
-const mine = require('./mine')
-const server_info = require('./server-info')
-const forcetake = require('./forcetake')
-const forcegive = require('./forcegive')
+import { balance } from './balance.js'
+import { walk } from './walk.js'
+import { about } from './about.js'
+import { dep_piggy } from './dep-piggy.js'
+import { view_piggy } from './view-piggy.js'
+import { daily }  from './daily.js'
+import { with_piggy } from './with-piggy.js'
+import { claim_drop } from './claim-drop.js'
+import { invest } from './invest.js'
+import { help } from './help.js'
+import { leaderboard } from './leaderboard.js'
+import { view_vault } from './view-vault.js'
+import { dep_vault } from './dep-vault.js'
+import { mine } from './mine.js'
+import { server_info } from './server-info.js'
+import { forcetake } from './forcetake.js'
+import { forcegive } from './forcegive.js'
 
 // Import Slash CMDS
-const slash_claim_drop = require('./sclaim-drop')
-const slash_help = require('./shelp')
-const slash_invest = require('./sinvest')
-const slash_dep_piggy = require('./sdep-piggy')
-const slash_with_piggy = require('./swith-piggy')
-const slash_balance = require('./sbalance')
-const slash_about = require('./sabout')
-const slash_daily = require('./sdaily')
-const slash_view_piggy = require('./sview-piggy')
-const slash_view_vault = require('./sview-vault')
-const slash_dep_vault = require('./sdep-vault')
-const slash_server_info = require('./sserver-info')
-const slash_leaderboard = require('./sleaderboard')
-const slash_walk = require('./swalk')
-const smine = require('./smine')
+import { slash_balance } from './sbalance.js'
+import { slash_walk } from './swalk.js'
+import { slash_about } from './sabout.js'
+import { slash_dep_piggy } from './sdep-piggy.js'
+import { slash_view_piggy } from './sview-piggy.js'
+import { slash_daily }  from './sdaily.js'
+import { slash_with_piggy } from './swith-piggy.js'
+import { slash_claim_drop } from './sclaim-drop.js'
+import { slash_invest } from './sinvest.js'
+import { slash_help } from './shelp.js'
+import { slash_leaderboard } from './sleaderboard.js'
+import { slash_view_vault } from './sview-vault.js'
+import { slash_dep_vault } from './sdep-vault.js'
+import { slash_mine } from './smine.js'
+import { slash_server_info } from './sserver-info.js'
 
 
 const client = new Client({
@@ -116,15 +117,12 @@ client.on('interactionCreate', async (interaction) => {
   await slash_server_info(interaction, commandName, client, server_infocd)
   await slash_leaderboard(interaction, commandName, client, leaderboardcd)
   await slash_walk(interaction, commandName, client, walkcd)
-  await smine(interaction, commandName, client, minecd)
+  await slash_mine(interaction, commandName, client, minecd)
 
 })
 
 mongoose
-  .connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true, 
-    useUnifiedTopology: true,
-  })
+  .connect(process.env.MONGODB_URI)
   .then(() => {
     console.log('> Connected to MongoDB');
   })
