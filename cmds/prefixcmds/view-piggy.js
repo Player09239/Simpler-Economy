@@ -1,14 +1,15 @@
-const { EmbedBuilder, Message, Client } = require('discord.js')
-const user = require('./data')
-const bot = require('./bot')
-const format = require('./numformat')
+import { EmbedBuilder, Client, Message } from 'discord.js'
+import data from './data.js'
+import bot from './bot.js'
+import server from './server.js'
+import { format } from './functions.ts'
 
-module.exports = async (message, client, view_piggycd) => {
+export async function view_piggy(message, client, view_piggycd) {
     try {
         let b = await bot.findOne({ client: client.user.id })
 
         if (message.content === `${b.prefix}view-piggy`) {
-            let u = await user.findOne({ userId: message.author.id })
+            let u = await data.findOne({ userId: message.author.id })
 
             b.totalCommandsExecuted += 1
             b.totalMessagesSent += 1

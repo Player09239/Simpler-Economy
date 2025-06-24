@@ -1,11 +1,10 @@
-const { EmbedBuilder, Client, Message } = require('discord.js')
-const data = require('./data.js')
-const bot = require('./bot.js')
-const format = require('./numformat.js')
-const server = require('./server.js')
-const { calculate_earned } = require('./functions')
+import { EmbedBuilder, Client, Message } from 'discord.js'
+import data from './data.js'
+import bot from './bot.js'
+import server from './server.js'
+import { calculate_earned, format } from './functions.ts'
 
-module.exports = async (message, client, walkcd) => {
+export async function walk(message, client, walkcd) {
     try {
         let b = await bot.findOne({ client: client.user.id })
 

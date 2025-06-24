@@ -1,8 +1,10 @@
-const { EmbedBuilder, Message, Client } = require('discord.js')
-const bot = require('./bot')
-const user = require('./data')
+import { EmbedBuilder, Client, Message } from 'discord.js'
+import data from './data.js'
+import bot from './bot.js'
+import server from './server.js'
+import { format } from './functions.ts'
 
-module.exports = async (message, client, helpcd) => {
+export async function help(message, client, helpcd) {
     let b = await bot.findOne({ client: client.user.id })
 
     const args = message.content.trim().split(/ +/)
@@ -14,7 +16,7 @@ module.exports = async (message, client, helpcd) => {
 
         await b.save()
 
-        let u = await user.findOne({ userId: message.author.id })
+        let u = await data.findOne({ userId: message.author.id })
         
         if (helpcd.has(message.author.id)) {
             const cooldownEmbed = new EmbedBuilder()

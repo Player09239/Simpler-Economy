@@ -1,9 +1,10 @@
-const { EmbedBuilder, Message, Client } = require("discord.js");
-const bot = require('./bot')
-const users = require('./data')
-const format = require('./numformat')
+import { EmbedBuilder, Client, Message } from 'discord.js'
+import users from './data.js'
+import bot from './bot.js'
+import server from './server.js'
+import { format } from './functions.ts'
 
-module.exports = async (message, client, leaderboardcd) => {
+export async function leaderboard(message, client, leaderboardcd) {
     try {
         let b = await bot.findOne({ client: client.user.id })
 

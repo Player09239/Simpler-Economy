@@ -1,10 +1,11 @@
-const { EmbedBuilder, Message, Client } = require('discord.js')
-const bot = require('./bot.js')
-const data = require('./data.js')
-const format = require('./numformat.js')
-const os = require('os')
+import { EmbedBuilder, Client, Message } from 'discord.js'
+import data from './data.js'
+import bot from './bot.js'
+import server from './server.js'
+import { format } from './functions.ts'
+import os from 'os'
 
-module.exports = async (message, client, aboutcd) => {
+export async function about(message, client, aboutcd) {
     try {
         let b = await bot.findOne({ client: client.user.id })
 
@@ -53,9 +54,9 @@ module.exports = async (message, client, aboutcd) => {
 **>** **CPU Load** ${percentLoad.toFixed(2)}%
 
 **>** **Total Users** ${await format(client.users.cache.size)}
-**>** **Total Servers** ${await (client.guilds.cache.size)}
-**>** **Total Messages Sent** ${await (b.totalMessagesSent)}
-**>** **Total Commands Executed** ${await (b.totalCommandsExecuted)}
+**>** **Total Servers** ${await format (client.guilds.cache.size)}
+**>** **Total Messages Sent** ${await format(b.totalMessagesSent)}
+**>** **Total Commands Executed** ${await format(b.totalCommandsExecuted)}
                 `)
                 .setTimestamp()
 
