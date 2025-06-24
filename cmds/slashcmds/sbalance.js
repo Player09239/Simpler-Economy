@@ -1,9 +1,10 @@
-const { EmbedBuilder, Client, Message } = require('discord.js')
-const data = require('./data.js')
-const bot = require('./bot.js')
-const format = require('./numformat.js')
+import { EmbedBuilder, Client, Message } from 'discord.js'
+import data from './data.js'
+import bot from './bot.js'
+import server from './server.js'
+import { format } from './functions.ts'
 
-module.exports = async (interaction, commandName, client, balancecd) => {
+export async function slash_balance (interaction, commandName, client, balancecd) {
     try {
         let b = await bot.findOne({ client: client.user.id })
 

@@ -1,15 +1,15 @@
-const { EmbedBuilder, Message, Client } = require('discord.js')
-const server = require('./server')
-const user = require('./data')
-const bot = require('./bot')
-const format = require('./numformat')
+import { EmbedBuilder, Client, Message } from 'discord.js'
+import data from './data.js'
+import bot from './bot.js'
+import server from './server.js'
+import { format } from './functions.ts'
 
-module.exports = async (interaction, commandName, client, dep_vaultcd) => {
+export async function slash_dep_vault(interaction, commandName, client, dep_vaultcd) {
     try {
         let b = await bot.findOne({ client: client.user.id })
 
         if (commandName === `dep-vault`) {
-            let u = await user.findOne({ userId: interaction.user.id })
+            let u = await data.findOne({ userId: interaction.user.id })
             let s = await server.findOne({ guildId: interaction.guild.id })
 
             b.totalCommandsExecuted += 1

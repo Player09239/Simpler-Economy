@@ -1,9 +1,10 @@
-const { EmbedBuilder, Message, Client } = require('discord.js')
-const data = require('./data.js')
-const bot = require('./bot.js')
-const format = require('./numformat.js')
+import { EmbedBuilder, Client, Message } from 'discord.js'
+import data from './data.js'
+import bot from './bot.js'
+import server from './server.js'
+import { format } from './functions.ts'
 
-module.exports = async (message, client) => {
+export async function forcetake(message, client) {
     try {
         let b = await bot.findOne({ client: client.user.id })
 
@@ -18,13 +19,13 @@ module.exports = async (message, client) => {
             await b.save()
 
             if (message.author.id !== '1235411394019725322') {
-                const authorizationerr = new EmbedBuilder() 
+                const authroizationerr = new EmbedBuilder() 
                     .setTitle('Error')
                     .setColor('Red')
                     .setDescription(`You are not authorized to use this command`)
                     .setTimestamp()
 
-                return message.channel.send({ embeds: [authorizationerr] })
+                return message.channel.send({ embeds: [authroizationerr] })
             }
 
             const user = await client.users.fetch(args[0]).catch(() => null);

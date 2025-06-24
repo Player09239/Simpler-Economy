@@ -1,16 +1,16 @@
-const { EmbedBuilder, Client, Message } = require('discord.js')
-const bot = require('./bot')
-const user = require('./data')
-const format = require('./numformat')
-const server = require('./server')
+import { EmbedBuilder, Client, Message } from 'discord.js'
+import data from './data.js'
+import bot from './bot.js'
+import server from './server.js'
+import { format } from './functions.ts'
 
-module.exports = async (interaction, commandName, client, claim_dropcd) => {
+export async function slash_claim_drop(interaction, commandName, client, claim_dropcd) {
     try {
         let b = await bot.findOne({ client: client.user.id })
         let s = await server.findOne({ guildId: interaction.guild.id })
 
         if (commandName === `claim-drop`) {
-            let u = await user.findOne({ userId: interaction.user.id })
+            let u = await data.findOne({ userId: interaction.user.id })
 
             b.totalCommandsExecuted += 1
             b.totalMessagesSent += 1

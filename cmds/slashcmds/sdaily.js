@@ -1,14 +1,15 @@
-const { EmbedBuilder } = require('discord.js')
-const user = require('./data')
-const bot = require('./bot')
-const format = require('./numformat')
+import { EmbedBuilder, Client, Message } from 'discord.js'
+import data from './data.js'
+import bot from './bot.js'
+import server from './server.js'
+import { format } from './functions.ts'
 
-module.exports = async (interaction, commandName, client) => {
+export async function slash_daily(interaction, commandName, client) {
     try {
         let b = await bot.findOne({ client: client.user.id })
 
         if (commandName === `daily`) {
-            let u = await user.findOne({ userId: interaction.user.id })
+            let u = await data.findOne({ userId: interaction.user.id })
 
             b.totalCommandsExecuted += 1
             b.totalMessagesSent += 1

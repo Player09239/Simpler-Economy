@@ -1,10 +1,14 @@
-const { EmbedBuilder, Message, Client } = require('discord.js')
-const bot = require('./bot')
+import { EmbedBuilder, Client, Message } from 'discord.js'
+import data from './data.js'
+import bot from './bot.js'
+import server from './server.js'
+import { format } from './functions.ts'
 
-module.exports = async (interaction, commandName, client, helpcd) => {
+export async function slash_help(interaction, commandName, client, helpcd) {
     let b = await bot.findOne({ client: client.user.id })
 
     if (commandName === `help`) {
+        let u = await data.findOne({ userId: interaction.user.id })
         b.totalCommandsExecuted += 1
         b.totalMessagesSent += 1
 

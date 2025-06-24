@@ -1,9 +1,10 @@
-const { EmbedBuilder, Message, Client } = require("discord.js");
-const bot = require('./bot')
-const users = require('./data')
-const format = require('./numformat')
+import { EmbedBuilder, Client, Message } from 'discord.js'
+import users from './data.js'
+import bot from './bot.js'
+import server from './server.js'
+import { format } from './functions.ts'
 
-module.exports = async (interaction, commandName, client, leaderboardcd) => {
+export async function slash_leaderboard(interaction, commandName, client, leaderboardcd) {
     try {
         let b = await bot.findOne({ client: client.user.id })
 
