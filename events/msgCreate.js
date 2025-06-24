@@ -1,8 +1,9 @@
-const data = require('./data')
-const bot = require('./bot')
-const server = require('./server')
+import { EmbedBuilder, Client, Message } from 'discord.js'
+import data from './data.js'
+import bot from './bot.js'
+import server from './server.js'
 
-module.exports = async (message, client) => {
+export async function msg(message, client) {
     let u = await data.findOne({ userId: message.author.id })
 
     if (!u) {
@@ -18,6 +19,21 @@ module.exports = async (message, client) => {
                 start: 0,
                 finish: 0,
                 active: false
+            },
+            last: {
+                about: 0,
+                balance: 0,
+                claim_drop: 0,
+                dep_piggy: 0,
+                dep_vault: 0,
+                help: 0,
+                leaderboard: 0,
+                mine: 0,
+                server_info: 0,
+                view_piggy: 0,
+                view_vault: 0,
+                walk: 0,
+                with_piggy: 0,
             }
         })
         await u.save()
