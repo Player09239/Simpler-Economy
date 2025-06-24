@@ -1,4 +1,4 @@
-const { Schema, model } = require('mongoose');
+import { Schema, model } from 'mongoose'
 
 const botSchema = new Schema({
     prefix: {
@@ -20,4 +20,4 @@ const botSchema = new Schema({
     }
 });
 
-module.exports = model('Bot', botSchema);
+export default model('Bot', botSchema);
