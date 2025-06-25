@@ -86,6 +86,10 @@ const userSchema = new Schema({
         server_info: {
             type: Number,
             default: 0
+        },
+        walk: {
+            type: Number,
+            default: 0
         }
     }
 });
