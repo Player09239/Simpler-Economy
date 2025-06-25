@@ -1,6 +1,6 @@
-require('dotenv').config();
-const { REST, Routes } = require('discord.js');
-const { SlashCommandBuilder } = require('discord.js');
+import * as dotenv from 'dotenv'
+dotenv.config()
+import { REST, Routes, SlashCommandBuilder } from 'discord.js'
 
 const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
 
@@ -83,7 +83,7 @@ const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
                             .addChoices(
                                 { name: 'Cookies', value: 'cookies' },
                                 { name: 'Gems', value: 'gems' },
-                                { name: 'Piggy Bank', vaule: 'piggybank' }
+                                { name: 'Piggy Bank', value: 'piggybank' }
                             )
                             .setRequired(true))
                     .toJSON(),
