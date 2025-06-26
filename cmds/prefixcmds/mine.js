@@ -29,7 +29,7 @@ export async function mine(message, client, minecd) {
             const rng = Math.random()
 
             if (rng < 0.5) {
-                const amount = await calculate_earned(Math.floor((Math.random() * 5) + 1), 'gems', message.author.id)
+                const amount = await calculate_earned(Math.floor((Math.random() * 5) + 1), 'gems', message.guild.id)
                 u.gems += amount
                 await u.save()
 

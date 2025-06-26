@@ -27,7 +27,7 @@ export async function walk(message, client, walkcd) {
                 return message.channel.send({ embeds: [cooldownEmbed] })
             }
 
-            const earnedCookies = await calculate_earned(Math.floor((Math.random() * 5) + 1), 'cookies', message.author.id)
+            const earnedCookies = await calculate_earned(Math.floor((Math.random() * 5) + 1), 'cookies', message.guild.id)
             const walked = Math.random() * 10
 
             u.cookies += earnedCookies
