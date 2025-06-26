@@ -29,7 +29,7 @@ export async function slash_mine(interaction, commandName, client, minecd) {
             const rng = Math.random()
 
             if (rng < 0.5) {
-                const amount = await calculate_earned(Math.floor((Math.random() * 5) + 1), 'gems', interaction.user.id)
+                const amount = await calculate_earned(Math.floor((Math.random() * 5) + 1), 'gems', interaction.guild.id)
                 u.gems += amount
                 await u.save()
 

@@ -27,7 +27,7 @@ export async function slash_walk(interaction, commandName, client, walkcd) {
                 return interaction.reply({ embeds: [cooldownEmbed] })
             }
 
-            const earnedCookies = await calculate_earned(Math.floor((Math.random() * 5) + 1), 'cookies', interaction.user.id)
+            const earnedCookies = await calculate_earned(Math.floor((Math.random() * 5) + 1), 'cookies', interaction.guild.id)
             const walked = Math.random() * 10
 
             u.cookies += earnedCookies
