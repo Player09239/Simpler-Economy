@@ -1,8 +1,8 @@
 import Server from './server.js'
 import User from './data.js'
 
-export async function calculate_earned(base: number, currency: string, user: string): Promise<number> {
-    let s = await Server.findOne({ userId: user });
+export async function calculate_earned(base: number, currency: string, guild: string): Promise<number> {
+    let s = await Server.findOne({ guildId: guild });
     if (!s || !s.vault) return base
 
     if (currency === 'cookies') {
