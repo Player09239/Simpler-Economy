@@ -29,6 +29,8 @@ export async function leaderboard(message, client, leaderboardcd) {
                 return message.channel.send({ embeds: [cooldownEmbed] })
             }
 
+            let topUsers;
+
             const err1 = new EmbedBuilder()
                 .setTitle('Error')
                 .setColor('Red')
