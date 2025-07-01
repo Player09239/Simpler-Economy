@@ -26,6 +26,8 @@ export async function slash_leaderboard(interaction, commandName, client, leader
                 return interaction.reply({ embeds: [cooldownEmbed] })
             }
 
+            let topUsers;
+
             const lb = new EmbedBuilder()
                 .setColor('#36393F')
                 .setTimestamp()
