@@ -38,5 +38,13 @@ export async function format(input: number): Promise<string | number | undefined
     if (input >= 1000000000000000000000000000000000000000000000000000000000000000 && input < 1000000000000000000000000000000000000000000000000000000000000000000) return (input / 1000000000000000000000000000000000000000000000000000000000000000).toFixed(2) + 'vg'
     if (input >= 1000000000000000000000000000000000000000000000000000000000000000000 && input < 1000000000000000000000000000000000000000000000000000000000000000000000) return (input / 1000000000000000000000000000000000000000000000000000000000000000000).toFixed(2) + 'uvg'
     if (input >= 1000000000000000000000000000000000000000000000000000000000000000000000 && input < 1000000000000000000000000000000000000000000000000000000000000000000000000) return (input / 1000000000000000000000000000000000000000000000000000000000000000000000).toFixed(2) + 'dvg'
+    if (input >= 1e66 && input < 1e69) return (input / 1e66).toFixed(2) + 'tvg'
+    if (input >= 1e69 && input < 1e72) return (input / 1e69).toFixed(2) + 'qavg'
+    if (input >= 1e72 && input < 1e75) return (input / 1e72).toFixed(2) + 'qnvg'
+    if (input >= 1e75 && input < 1e78) return (input / 1e75).toFixed(2) + 'sxvg'
+    if (input >= 1e78 && input < 1e81) return (input / 1e78).toFixed(2) + 'spvg'
+    if (input >= 1e81 && input < 1e84) return (input / 1e81).toFixed(2) + 'ocvg'
+    if (input >= 1e84 && input < 1e87) return (input / 1e84).toFixed(2) + 'novg'
+    if (input >= 1e87 && input < 1e90) return (input / 1e87).toFixed(2) + 'tg'
 }
 
