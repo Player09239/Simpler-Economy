@@ -43,7 +43,7 @@ export async function about(message, client, aboutcd) {
                 .setDescription(`
                     
 [GITHUB](https://github.com/Player09239/Simpler-Economy/tree/main)
-[CHILL WITH THE DEV](https://discord.gg/qEnRAhPQfg)
+[CHILL WITH THE DEV](https://discord.gg/HdqT2kbmFC)
 [INVITE THE BOT](https://discord.com/oauth2/authorize?client_id=1362806385057730651&scope=bot&permissions=8)
 
 **${client.user.username}**
