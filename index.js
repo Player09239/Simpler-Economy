@@ -43,7 +43,6 @@ import { slash_dep_vault } from './sdep-vault.js'
 import { slash_mine } from './smine.js'
 import { slash_server_info } from './sserver-info.js'
 
-
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
