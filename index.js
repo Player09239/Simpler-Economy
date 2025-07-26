@@ -61,6 +61,7 @@ client.on('ready', () => {
   }
 })
 
+
 // Cooldown for commands
 const balancecd = new Set()
 const walkcd = new Set()
